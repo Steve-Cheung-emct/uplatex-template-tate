@@ -270,21 +270,38 @@ python test.py  > ./col.txt
 
 ### python 小程序
 ```python
+#-*- coding:utf-8 -*-
 import io
 import sys
 import urllib.request
-sys.stdout = io.TextIOWrapper(sys.stdout.buffer,encoding='utf8') #改变标准输出的默认编码
+#改變標準輸出的默認編碼為utf8
+sys.stdout = io.TextIOWrapper(sys.stdout.buffer,encoding='utf8') 
 from collections import Counter
-TotalChar = [x for x in open(r"./sh.tex", "r", encoding="utf-8").read() if 13312<=ord(x)<=19893   or   19968<=ord(x)<=40943 or	63744<=ord(x)<=64255	or	64048<=ord(x)<=64106 	or	64112<=ord(x)<=64217		or   131072<=ord(x)<=173782	or	194560<=ord(x)<=195103  ]
-#	CJK 基本平面					CJK-A								CJK-B				
- 19968<=ord(x)<=40943			13312<=ord(x)<=19893 		131072<=ord(x)<=173782	
-# CJK 兼容漢字及兼容漢字擴展
-# 	63744<=ord(x)<=64255	or	64048<=ord(x)<=64106 	or	64112<=ord(x)<=64217	or 	194560<=ord(x)<=195103
-# 统计不同汉字的重复次数
+# 統計總漢字数，文本均以utf-8格式保存
+TotalChar = [x for x in open(r"./sh.tex", "r", encoding="utf-8").read() if  13312<=ord(x)<=19893 or 19968<=ord(x)<=40943 or 131072<=ord(x)<=173782 or 63744<=ord(x)<=64255 ]
+
+# CJK 基本平面 
+# 19968<=ord(x)<=40943 
+# CJK-A 
+# or 13312<=ord(x)<=19893
+# CJK-B
+# or 131072<=ord(x)<=173782
+# CJK-C
+# or 173824<=ord(x)<=177972
+# CJK-D
+# or 177984<=ord(x)<=178205
+# CJK 兼容漢字
+# or 63744<=ord(x)<=64255
+# CJK 兼容漢字擴展
+# or 64048<=ord(x)<=64106 or 64112<=ord(x)<=64217
+# or 194560<=ord(x)<=195103 or 917760<=ord(x)<=917999 
+# 統計不同漢字的重複次数。
 CountChar = Counter(TotalChar)
-print("总汉字数：", len((TotalChar)))
-print("不同汉字数：", len((CountChar)))
+print("總漢字数：", len((TotalChar)))
+print("不同漢字数：", len((CountChar)))
 print(CountChar)
+# 注意python的縮進。
+
 ```
 * 使用 emeditor 將 結果整理成一列漢字。撷取我们需要的割集或者补集的内容。
 批量替換`': 1, '`為`\r\n`，再刪除文件行首行尾的無關内容。
